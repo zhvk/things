@@ -26,7 +26,7 @@ public class SelectedListAdapter extends RecyclerView.Adapter<SelectedListAdapte
     @Override
     public SelectedListAdapter.SelectedListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemCharacterSelectedBinding binding = ItemCharacterSelectedBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        SelectedListAdapter.SelectedListViewHolder holder =  new SelectedListAdapter.SelectedListViewHolder(binding);
+        SelectedListViewHolder holder = new SelectedListViewHolder(binding);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,12 +42,16 @@ public class SelectedListAdapter extends RecyclerView.Adapter<SelectedListAdapte
     @Override
     public void onBindViewHolder(@NonNull SelectedListAdapter.SelectedListViewHolder holder, int position) {
         CharacterPojo character = dataList.get(position);
-        holder.bind(character);
+        holder.bind(character, getAlphaForPosition(position));
     }
 
     @Override
     public int getItemCount() {
         return dataList.size();
+    }
+
+    private float getAlphaForPosition(int index) {
+        return 1f - (0.65f * (index / (dataList.size() - 1f)));
     }
 
     static class SelectedListViewHolder extends RecyclerView.ViewHolder {
@@ -58,7 +62,8 @@ public class SelectedListAdapter extends RecyclerView.Adapter<SelectedListAdapte
             this.binding = binding;
         }
 
-        public void bind(CharacterPojo character) {
+        public void bind(CharacterPojo character, float alpha) {
+            binding.frameLayout.setAlpha(alpha);
             binding.characterName.setText(character.name);
         }
     }

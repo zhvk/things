@@ -50,10 +50,13 @@ public class ThingsViewModel extends ViewModel {
 
     public ArrayList<CharacterPojo> getSelectedCharacters() {
         ArrayList<CharacterPojo> filteredList = new ArrayList<>();
+        if (characters == null || characters.getValue() == null) return filteredList;
+
         for (CharacterPojo character : characters.getValue()) {
             if (character.selected)
                 filteredList.add(character);
         }
+
         Log.d("TVM: " + this.hashCode(), "selected characters: " + filteredList.toString());
         return filteredList;
     }
@@ -73,9 +76,9 @@ public class ThingsViewModel extends ViewModel {
         CharacterPojo randomCharacter = null;
 
 //        while (randomCharacter != focusedCharacter.getValue()) {
-            int index = randomGenerator.nextInt(selectedCharacters.size());
-            Log.d("TVM: " + this.hashCode(), "random index: " + index + ", size: " + selectedCharacters.size());
-            randomCharacter = selectedCharacters.get(index);
+        int index = randomGenerator.nextInt(selectedCharacters.size());
+        Log.d("TVM: " + this.hashCode(), "random index: " + index + ", size: " + selectedCharacters.size());
+        randomCharacter = selectedCharacters.get(index);
 //        }
 
         focusedCharacter.setValue(randomCharacter);

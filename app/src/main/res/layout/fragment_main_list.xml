@@ -55,7 +55,7 @@
 
     <Button
         android:id="@+id/button_next"
-        style="@style/Widget.AppCompat.Button"
+        style="@style/CustomButtonTheme"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

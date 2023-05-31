@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zhvk.things.databinding.ItemCharacterMainBinding;
@@ -28,11 +27,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MainLi
     @NonNull
     @Override
     public MainListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemCharacterMainBinding binding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.getContext()),
-                R.layout.item_character_main,
-                parent,
-                false);
+        ItemCharacterMainBinding binding = ItemCharacterMainBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         MainListViewHolder holder = new MainListViewHolder(binding);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +45,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MainLi
     @Override
     public void onBindViewHolder(@NonNull MainListViewHolder holder, int position) {
         CharacterPojo character = dataList.get(position);
-        holder.bind(character);
+        holder.bind(character, getAlphaForPosition(position));
     }
 
     @Override
@@ -62,6 +57,10 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MainLi
         this.dataList = dataList;
     }
 
+    private float getAlphaForPosition(int index) {
+        return 1f - (0.65f * (index / (dataList.size() - 1f)));
+    }
+
     static class MainListViewHolder extends RecyclerView.ViewHolder {
         public ItemCharacterMainBinding binding;
 
@@ -70,9 +69,11 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MainLi
             this.binding = binding;
         }
 
-        public void bind(CharacterPojo character) {
-            binding.setCharacter(character);
-            binding.executePendingBindings();   // TODO: Is this needed here?
+        public void bind(CharacterPojo character, float alpha) {
+            binding.frameLayout.setAlpha(alpha);
+            if (character.selected) binding.characterSelectedImage.setVisibility(View.VISIBLE);
+            else binding.characterSelectedImage.setVisibility(View.GONE);
+            binding.characterName.setText(character.getName());
         }
     }
 }
