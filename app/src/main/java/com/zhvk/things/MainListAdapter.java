@@ -34,7 +34,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MainLi
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
-                dataList.get(position).select();
+                dataList.get(position).switchSelected();
                 notifyItemChanged(position);
             }
         });
@@ -71,7 +71,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MainLi
 
         public void bind(CharacterPojo character, float alpha) {
             binding.frameLayout.setAlpha(alpha);
-            if (character.selected) binding.characterSelectedImage.setVisibility(View.VISIBLE);
+            if (character.isSelected()) binding.characterSelectedImage.setVisibility(View.VISIBLE);
             else binding.characterSelectedImage.setVisibility(View.GONE);
             binding.characterName.setText(character.getName());
         }

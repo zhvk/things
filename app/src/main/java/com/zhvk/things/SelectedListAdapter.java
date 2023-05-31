@@ -64,7 +64,7 @@ public class SelectedListAdapter extends RecyclerView.Adapter<SelectedListAdapte
 
         public void bind(CharacterPojo character, float alpha) {
             binding.frameLayout.setAlpha(alpha);
-            binding.characterName.setText(character.name);
+            binding.characterName.setText(character.getName());
         }
     }
 }

@@ -53,7 +53,7 @@ public class ThingsViewModel extends ViewModel {
         if (characters == null || characters.getValue() == null) return filteredList;
 
         for (CharacterPojo character : characters.getValue()) {
-            if (character.selected)
+            if (character.isSelected())
                 filteredList.add(character);
         }
 
@@ -89,12 +89,9 @@ public class ThingsViewModel extends ViewModel {
         setFocusedCharacter(null);
     }
 
-    public void addNewCharacter(String name, String status, String species, String gender) {
+    public void addNewCharacter(String name) {
         CharacterPojo newCharacter = new CharacterPojo();
         newCharacter.setName(name);
-        newCharacter.setStatus(status);
-        newCharacter.setSpecies(species);
-        newCharacter.setGender(gender);
         newCharacter.setImageUrl("https://picsum.photos/200");
 
         if (characters.getValue() == null) characters.setValue(new ArrayList<>());

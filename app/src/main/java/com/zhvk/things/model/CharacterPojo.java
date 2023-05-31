@@ -4,32 +4,25 @@ import com.google.gson.annotations.SerializedName;
 
 public class CharacterPojo {
 
-    // TODO: Da li za ove Retrofit objekte treba da budu public fields?
-    // TODO: 2 Da li koristimo getere i setere ili direktno mozemo da menjamo?
-
     @SerializedName("id")
-    public Integer id;
+    private Integer id;
 
     @SerializedName("name")
-    public String name;
+    private String name;
 
     @SerializedName("status")
-    public String status;
+    private String status;
 
     @SerializedName("species")
-    public String species;
+    private String species;
 
     @SerializedName("gender")
-    public String gender;
+    private String gender;
 
     @SerializedName("image")
-    public String imageUrl;
+    private String imageUrl;
 
-    public boolean selected = false;
-
-    public void select() {
-        selected = !selected;
-    }
+    private boolean selected = false;
 
     public String getName() {
         return name;
@@ -69,5 +62,17 @@ public class CharacterPojo {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public void switchSelected() {
+        this.selected = !this.selected;
     }
 }

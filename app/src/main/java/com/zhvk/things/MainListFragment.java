@@ -99,18 +99,9 @@ public class MainListFragment extends Fragment {
                 .setPositiveButton(getString(R.string.add), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // TODO: Improve this to use ViewBinding
                         TextInputLayout nameView = (TextInputLayout) ((AlertDialog) dialog).findViewById(R.id.dialog_name_view);
-                        TextInputLayout statusView = (TextInputLayout) ((AlertDialog) dialog).findViewById(R.id.dialog_status_view);
-                        TextInputLayout speciesView = (TextInputLayout) ((AlertDialog) dialog).findViewById(R.id.dialog_species_view);
-                        TextInputLayout genderView = (TextInputLayout) ((AlertDialog) dialog).findViewById(R.id.dialog_gender_view);
-
-                        // TODO: Improve
-                        viewModel.addNewCharacter(
-                                nameView.getEditText().getText().toString().trim(),
-                                statusView.getEditText().getText().toString().trim(),
-                                speciesView.getEditText().getText().toString().trim(),
-                                genderView.getEditText().getText().toString().trim()
-                        );
+                        viewModel.addNewCharacter(nameView.getEditText().getText().toString().trim());
                     }
                 })
                 .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
