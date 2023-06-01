@@ -57,6 +57,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MainLi
         this.dataList = dataList;
     }
 
+    // Method that dynamically sets different shade of gray background to VH items based on their position.
     private float getAlphaForPosition(int index) {
         return 1f - (0.65f * (index / (dataList.size() - 1f)));
     }
@@ -71,8 +72,10 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MainLi
 
         public void bind(CharacterPojo character, float alpha) {
             binding.frameLayout.setAlpha(alpha);
+
             if (character.isSelected()) binding.characterSelectedImage.setVisibility(View.VISIBLE);
             else binding.characterSelectedImage.setVisibility(View.GONE);
+
             binding.characterName.setText(character.getName());
         }
     }

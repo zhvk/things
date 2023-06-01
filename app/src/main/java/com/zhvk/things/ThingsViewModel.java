@@ -39,7 +39,6 @@ public class ThingsViewModel extends ViewModel {
                 ArrayList<CharacterPojo> data = resource.results;
                 characters.setValue(data);
                 Log.d("TVM: ", "loaded characters: " + characters.getValue());
-//                focusedCharacter.setValue(null);
             }
 
             @Override
@@ -98,19 +97,23 @@ public class ThingsViewModel extends ViewModel {
         setFocusedCharacter(null);
     }
 
-    public void addNewCharacter(String name) {
-        CharacterPojo newCharacter = new CharacterPojo();
-        newCharacter.setName(name);
-//        newCharacter.setImageUrl("https://picsum.photos/200");
+    public boolean addNewCharacter(String name, String status, String species, String gender) {
+        CharacterPojo newCharacter = new CharacterPojo(name, status, species, gender);
 
         if (characters.getValue() == null) characters.setValue(new ArrayList<>());
-        characters.getValue().add(newCharacter);
 
-        Log.d("TVM: ", "adding new character: " + newCharacter);
+        if (!characters.getValue().contains(newCharacter)) {
+            characters.getValue().add(newCharacter);
+            Log.d("TVM: ", "added new character: " + newCharacter);
+            return true;
+        } else {
+            Log.d("TVM: ", "failed to add new character: " + newCharacter + ", characters: " + characters.getValue());
+            return false;
+        }
     }
 
     private void findCharacterAndSwitchSelectedStatus(CharacterPojo character) {
-        int index = characters.getValue().indexOf(character);
+        int index = characters.getValue() != null ? characters.getValue().indexOf(character) : -1;
         if (index >= 0) characters.getValue().get(index).switchSelected();
     }
 }

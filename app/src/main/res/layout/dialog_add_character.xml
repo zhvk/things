@@ -7,13 +7,53 @@
     android:paddingVertical="8dp">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dialog_name_view"
+        android:id="@+id/dialog_name_text_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="4dp"
         android:hint="@string/name">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dialog_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dialog_status_text_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:hint="@string/status_optional">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dialog_status_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dialog_species_text_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:hint="@string/species_optional">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dialog_species_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/dialog_gender_text_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="4dp"
+        android:hint="@string/gender_optional">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dialog_gender_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>

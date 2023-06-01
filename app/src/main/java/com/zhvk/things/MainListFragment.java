@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 
-import com.google.android.material.textfield.TextInputLayout;
+import com.zhvk.things.databinding.DialogAddCharacterBinding;
 import com.zhvk.things.databinding.FragmentMainListBinding;
 import com.zhvk.things.model.CharacterPojo;
 
@@ -25,9 +25,6 @@ public class MainListFragment extends Fragment {
 
     private FragmentMainListBinding binding;
     private ThingsViewModel viewModel;
-    private AlertDialog addCharacterDialog;
-
-    //    private ThingsViewModel viewModel;
     private MainListAdapter adapter;
 
     public MainListFragment() {
@@ -47,6 +44,7 @@ public class MainListFragment extends Fragment {
         ViewModelStoreOwner storeOwner = Navigation.findNavController(view).getViewModelStoreOwner(R.id.nav_graph);
         viewModel = new ViewModelProvider(storeOwner).get(ThingsViewModel.class);
         viewModel.loadCharacters();
+        viewModel.resetFocusedCharacter();
 
         adapter = new MainListAdapter();
         binding.recyclerView.setHasFixedSize(true);
@@ -59,24 +57,19 @@ public class MainListFragment extends Fragment {
                 if (viewModel.getSelectedCharacters().size() < 3)
                     Toast.makeText(getContext(), getString(R.string.error_cant_proceed), Toast.LENGTH_SHORT).show();
                 else
-                    Navigation.findNavController(view).navigate(
-                            R.id.action_mainFragment_to_selectionFragment,
-                            savedInstanceState);
+                    Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_selectionFragment, savedInstanceState);
             }
         });
-
         binding.buttonAddCharacter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAddCharacterDialog();
+                createAddCharacterDialog();
             }
         });
 
         viewModel.characters.observe(getViewLifecycleOwner(), newData -> {
             populateList(newData);
         });
-
-        createAddCharacterDialog();
     }
 
     @Override
@@ -92,16 +85,25 @@ public class MainListFragment extends Fragment {
     }
 
     private void createAddCharacterDialog() {
-        LayoutInflater factory = LayoutInflater.from(getContext());
-        final View dialogView = factory.inflate(R.layout.dialog_add_character, null);
-        addCharacterDialog = new AlertDialog.Builder(getContext())
+        DialogAddCharacterBinding dialogBinding = DialogAddCharacterBinding.inflate(LayoutInflater.from(getContext()));
+        AlertDialog addCharacterDialog = new AlertDialog.Builder(getContext())
                 .setTitle(getString(R.string.add_new_character))
                 .setPositiveButton(getString(R.string.add), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO: Improve this to use ViewBinding
-                        TextInputLayout nameView = (TextInputLayout) ((AlertDialog) dialog).findViewById(R.id.dialog_name_view);
-                        viewModel.addNewCharacter(nameView.getEditText().getText().toString().trim());
+                        String name = dialogBinding.dialogNameEditText.getText().toString().trim();
+
+                        if (!name.isEmpty()) {
+                            boolean characterAddedSuccessfully = viewModel.addNewCharacter(name,
+                                    dialogBinding.dialogStatusEditText.getText().toString().trim(),
+                                    dialogBinding.dialogSpeciesEditText.getText().toString().trim(),
+                                    dialogBinding.dialogGenderEditText.getText().toString().trim());
+                            if (characterAddedSuccessfully)
+                                Toast.makeText(getContext(), getString(R.string.success_character_added), Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(getContext(), getString(R.string.error_character_already_exists), Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(getContext(), getString(R.string.error_cant_create_character), Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -111,10 +113,9 @@ public class MainListFragment extends Fragment {
                     }
                 })
                 .create();
-        addCharacterDialog.setView(dialogView);
-    }
 
-    private void showAddCharacterDialog() {
+        View dialogView = dialogBinding.getRoot();
+        addCharacterDialog.setView(dialogView);
         addCharacterDialog.show();
     }
 }

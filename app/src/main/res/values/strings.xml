@@ -2,9 +2,9 @@
     <string name="app_name">Things</string>
     <string name="app_subtitle">The App</string>
     <string name="name">Name</string>
-    <string name="status">Status</string>
-    <string name="species">Species</string>
-    <string name="gender">Gender</string>
+    <string name="status_optional">Status (optional)</string>
+    <string name="species_optional">Species (optional)</string>
+    <string name="gender_optional">Gender (optional)</string>
     <string name="status_formatter">Status: %s</string>
     <string name="species_formatter">Species: %s</string>
     <string name="gender_formatter">Gender: %s</string>
@@ -14,4 +14,7 @@
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
     <string name="error_cant_proceed">Please select at least 3 items before proceeding.</string>
+    <string name="error_cant_create_character">Name is mandatory field.</string>
+    <string name="success_character_added">Successfully added new character.</string>
+    <string name="error_character_already_exists">Character with that name already exists.</string>
 </resources>

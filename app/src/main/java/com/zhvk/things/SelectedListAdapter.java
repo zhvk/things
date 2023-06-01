@@ -32,7 +32,7 @@ public class SelectedListAdapter extends ListAdapter<CharacterPojo, SelectedList
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = holder.getAdapterPosition(); // TODO: getLayoutPosition() difference?
+                int position = holder.getAdapterPosition();
                 viewModel.setFocusedCharacter(getItem(position));
             }
         });
@@ -49,7 +49,7 @@ public class SelectedListAdapter extends ListAdapter<CharacterPojo, SelectedList
             new DiffUtil.ItemCallback<CharacterPojo>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull CharacterPojo oldUser, @NonNull CharacterPojo newUser) {
-                    // Should be ID but in this sample project, we are using name as primary identifier
+                    // Should be ID but in this simple project, we are using name as primary identifier
                     return Objects.equals(oldUser.getName(), newUser.getName());
                 }
 
@@ -59,6 +59,8 @@ public class SelectedListAdapter extends ListAdapter<CharacterPojo, SelectedList
                 }
             };
 
+    // Method that dynamically sets different shade of gray background to VH items based on their position.
+    //  This logic could use some improvements on this screen because order of items changes.
     private float getAlphaForPosition(int index) {
         return 1f - (0.65f * (index / (getItemCount() - 1f)));
     }

@@ -53,7 +53,6 @@ public class SelectedListFragment extends Fragment {
         binding.buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.resetFocusedCharacter();
                 getActivity().onBackPressed();
             }
         });
@@ -74,8 +73,6 @@ public class SelectedListFragment extends Fragment {
 
                     fadeOutCardView(character.getName(), statusText, speciesText, genderText);
                 }
-
-                // TODO: Check how this can be optimized
                 adapter.submitList(viewModel.getSelectedCharacters());
             }
         });

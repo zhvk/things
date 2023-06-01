@@ -20,7 +20,15 @@ public class CharacterPojo {
     @SerializedName("gender")
     private String gender;
 
-    private boolean selected = false;
+    private boolean selected;
+
+    public CharacterPojo(String name, String status, String species, String gender) {
+        this.name = name;
+        this.status = status;
+        this.species = species;
+        this.gender = gender;
+        this.selected = false;
+    }
 
     @NonNull
     @Override
@@ -67,7 +75,7 @@ public class CharacterPojo {
     }
 
     public String getStatus() {
-        return status;
+        return isNullOrEmpty(status);
     }
 
     public void setStatus(String status) {
@@ -75,7 +83,7 @@ public class CharacterPojo {
     }
 
     public String getSpecies() {
-        return species;
+        return isNullOrEmpty(species);
     }
 
     public void setSpecies(String species) {
@@ -83,7 +91,7 @@ public class CharacterPojo {
     }
 
     public String getGender() {
-        return gender;
+        return isNullOrEmpty(gender);
     }
 
     public void setGender(String gender) {
@@ -100,5 +108,9 @@ public class CharacterPojo {
 
     public void switchSelected() {
         this.selected = !this.selected;
+    }
+
+    private String isNullOrEmpty(String string) {
+        return string == null || string.isEmpty() ? "Unknown" : string;
     }
 }
