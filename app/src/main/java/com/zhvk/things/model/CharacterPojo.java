@@ -2,10 +2,9 @@ package com.zhvk.things.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CharacterPojo {
+import java.util.Objects;
 
-    @SerializedName("id")
-    private Integer id;
+public class CharacterPojo {
 
     @SerializedName("name")
     private String name;
@@ -19,10 +18,37 @@ public class CharacterPojo {
     @SerializedName("gender")
     private String gender;
 
-    @SerializedName("image")
-    private String imageUrl;
-
     private boolean selected = false;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        final CharacterPojo other = (CharacterPojo) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
+
+        if (!Objects.equals(this.species, other.species)) {
+            return false;
+        }
+
+        if (!Objects.equals(this.gender, other.gender)) {
+            return false;
+        }
+
+        return true;
+    }
 
     public String getName() {
         return name;
@@ -54,14 +80,6 @@ public class CharacterPojo {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public boolean isSelected() {

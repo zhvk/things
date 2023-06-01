@@ -5,6 +5,9 @@
     <string name="status">Status</string>
     <string name="species">Species</string>
     <string name="gender">Gender</string>
+    <string name="status_formatter">Status: %s</string>
+    <string name="species_formatter">Species: %s</string>
+    <string name="gender_formatter">Gender: %s</string>
     <string name="next">Next</string>
     <string name="back">Back</string>
     <string name="add_new_character">Manually add a new character</string>

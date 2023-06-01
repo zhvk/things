@@ -5,21 +5,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zhvk.things.databinding.ItemCharacterSelectedBinding;
 import com.zhvk.things.model.CharacterPojo;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
-public class SelectedListAdapter extends RecyclerView.Adapter<SelectedListAdapter.SelectedListViewHolder> {
+public class SelectedListAdapter extends ListAdapter<CharacterPojo, SelectedListAdapter.SelectedListViewHolder> {
 
     private final ThingsViewModel viewModel;
-    private final ArrayList<CharacterPojo> dataList;
 
     public SelectedListAdapter(ThingsViewModel viewModel) {
+        super(DIFF_CALLBACK);
         this.viewModel = viewModel;
-        this.dataList = viewModel.getSelectedCharacters();
     }
 
     @NonNull
@@ -31,8 +32,8 @@ public class SelectedListAdapter extends RecyclerView.Adapter<SelectedListAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = holder.getAdapterPosition();
-                viewModel.setFocusedCharacter(dataList.get(position));
+                int position = holder.getAdapterPosition(); // TODO: getLayoutPosition() difference?
+                viewModel.setFocusedCharacter(getItem(position));
             }
         });
 
@@ -41,17 +42,25 @@ public class SelectedListAdapter extends RecyclerView.Adapter<SelectedListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull SelectedListAdapter.SelectedListViewHolder holder, int position) {
-        CharacterPojo character = dataList.get(position);
-        holder.bind(character, getAlphaForPosition(position));
+        holder.bind(getItem(position), getAlphaForPosition(position));
     }
 
-    @Override
-    public int getItemCount() {
-        return dataList.size();
-    }
+    public static final DiffUtil.ItemCallback<CharacterPojo> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<CharacterPojo>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull CharacterPojo oldUser, @NonNull CharacterPojo newUser) {
+                    // Should be ID but in this sample project, we are using name as primary identifier
+                    return Objects.equals(oldUser.getName(), newUser.getName());
+                }
+
+                @Override
+                public boolean areContentsTheSame(@NonNull CharacterPojo oldUser, @NonNull CharacterPojo newUser) {
+                    return oldUser.equals(newUser);
+                }
+            };
 
     private float getAlphaForPosition(int index) {
-        return 1f - (0.65f * (index / (dataList.size() - 1f)));
+        return 1f - (0.65f * (index / (getItemCount() - 1f)));
     }
 
     static class SelectedListViewHolder extends RecyclerView.ViewHolder {

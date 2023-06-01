@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SelectedListFragment">
@@ -67,72 +68,72 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
         android:elevation="8dp"
         app:cardCornerRadius="16dp"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/recycler_view"
         app:layout_constraintTop_toTopOf="@id/recycler_view">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:animateLayoutChanges="false"
+            android:id="@+id/card_constraint_view"
             android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/character_image"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintDimensionRatio="4:3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/character_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintHorizontal_bias="0"
+                android:gravity="center"
+                android:paddingHorizontal="8dp"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/character_status"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/character_image"
-                tools:text="Blus Shirt Morty" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="Blue Shirt Morty" />
 
             <TextView
                 android:id="@+id/character_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintBottom_toTopOf="@+id/character_species"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/character_name"
-                tools:text="Alive" />
+                app:layout_constraintTop_toBottomOf="@+id/character_name"
+                tools:text="Status: Alive" />
 
             <TextView
                 android:id="@+id/character_species"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintBottom_toTopOf="@+id/character_gender"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/character_status"
-                tools:text="Human" />
+                app:layout_constraintTop_toBottomOf="@+id/character_status"
+                tools:text="Species: Human" />
 
             <TextView
                 android:id="@+id/character_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toBottomOf="@id/character_species"
-                app:layout_constraintStart_toEndOf="@id/character_species"
-                app:layout_constraintTop_toTopOf="@id/character_species"
-                tools:text="Male" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/character_species"
+                tools:text="Gender: Male" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

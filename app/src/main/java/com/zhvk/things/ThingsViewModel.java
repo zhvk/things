@@ -66,6 +66,11 @@ public class ThingsViewModel extends ViewModel {
     }
 
     public void setFocusedCharacter(CharacterPojo character) {
+        // Switching selected status for previously focused character if there are any
+        findCharacterAndSwitchSelectedStatus(this.focusedCharacter.getValue());
+        // Switching selected status for new focused character
+        findCharacterAndSwitchSelectedStatus(character);
+        // Setting new focused character
         this.focusedCharacter.setValue(character);
         Log.d("TVM: " + this.hashCode(), "setting focused character: " + character);
     }
@@ -81,7 +86,7 @@ public class ThingsViewModel extends ViewModel {
         randomCharacter = selectedCharacters.get(index);
 //        }
 
-        focusedCharacter.setValue(randomCharacter);
+        setFocusedCharacter(randomCharacter);
         Log.d("TVM: " + this.hashCode(), "setting random focused character: " + randomCharacter);
     }
 
@@ -92,11 +97,16 @@ public class ThingsViewModel extends ViewModel {
     public void addNewCharacter(String name) {
         CharacterPojo newCharacter = new CharacterPojo();
         newCharacter.setName(name);
-        newCharacter.setImageUrl("https://picsum.photos/200");
+//        newCharacter.setImageUrl("https://picsum.photos/200");
 
         if (characters.getValue() == null) characters.setValue(new ArrayList<>());
         characters.getValue().add(newCharacter);
 
         Log.d("TVM: " + this.hashCode(), "adding new character: " + newCharacter);
+    }
+
+    private void findCharacterAndSwitchSelectedStatus(CharacterPojo character) {
+        int index = characters.getValue().indexOf(character);
+        if (index > 0) characters.getValue().get(index).switchSelected();
     }
 }

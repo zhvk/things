@@ -1,5 +1,7 @@
 package com.zhvk.things;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 
-import com.squareup.picasso.Picasso;
 import com.zhvk.things.databinding.FragmentSelectedListBinding;
 import com.zhvk.things.model.CharacterPojo;
 
@@ -22,6 +23,8 @@ public class SelectedListFragment extends Fragment {
     private FragmentSelectedListBinding binding;
     private ThingsViewModel viewModel;
     private SelectedListAdapter adapter;
+
+    private final int shortAnimationDuration = 300;
 
     public SelectedListFragment() {
         // Required empty public constructor
@@ -40,15 +43,17 @@ public class SelectedListFragment extends Fragment {
         ViewModelStoreOwner storeOwner = Navigation.findNavController(view).getViewModelStoreOwner(R.id.nav_graph);
         viewModel = new ViewModelProvider(storeOwner).get(ThingsViewModel.class);
 
+        binding.cardView.setVisibility(View.INVISIBLE);
+
         adapter = new SelectedListAdapter(viewModel);
+        adapter.submitList(viewModel.getSelectedCharacters());
         binding.recyclerView.setHasFixedSize(true);
         binding.recyclerView.setAdapter(adapter);
-//        binding.setLifecycleOwner(this);
-//        binding.setViewModel(viewModel);
 
         binding.buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                viewModel.resetFocusedCharacter();
                 getActivity().onBackPressed();
             }
         });
@@ -59,20 +64,19 @@ public class SelectedListFragment extends Fragment {
             }
         });
 
-        // Decided not to use DataBinding here because of issues with updating of the CardView data.
-        //  For some reason, DataBinding updates data only on first entry and data is not refreshed
-        //  on later changes. I suspect that the LifecycleOwner is the issue.
         viewModel.focusedCharacter.observe(getViewLifecycleOwner(), new Observer<CharacterPojo>() {
             @Override
             public void onChanged(CharacterPojo character) {
-                Picasso.get()
-                        .load(character.getImageUrl())
-                        .placeholder(R.drawable.placeholder)
-                        .into(binding.characterImage);
-                binding.characterName.setText(character.getName());
-                binding.characterStatus.setText(character.getStatus());
-                binding.characterSpecies.setText(character.getSpecies());
-                binding.characterGender.setText(character.getGender());
+                if (character != null) {
+                    String statusText = String.format(getString(R.string.status_formatter), character.getStatus());
+                    String speciesText = String.format(getString(R.string.species_formatter), character.getSpecies());
+                    String genderText = String.format(getString(R.string.gender_formatter), character.getGender());
+
+                    fadeOutCardView(character.getName(), statusText, speciesText, genderText);
+                }
+
+                // TODO: Check how this can be optimized
+                adapter.submitList(viewModel.getSelectedCharacters());
             }
         });
 
@@ -87,6 +91,42 @@ public class SelectedListFragment extends Fragment {
 
     private void selectRandomCharacter() {
         viewModel.setRandomFocusedCharacter();
-//        binding.executePendingBindings();
+    }
+
+    private void fadeOutCardView(String nameText, String statusText, String speciesText, String genderText) {
+        // Start values
+        binding.cardView.setAlpha(1f);
+
+        // Animation
+        binding.cardView.animate()
+                .alpha(0f)
+                .setDuration(shortAnimationDuration)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        binding.cardView.setVisibility(View.INVISIBLE);
+
+                        // Chaining two animations
+                        fadeInCardView(nameText, statusText, speciesText, genderText);
+                    }
+                });
+    }
+
+    private void fadeInCardView(String nameText, String statusText, String speciesText, String genderText) {
+        // Setting text values while the CardView is not visible
+        binding.characterName.setText(nameText);
+        binding.characterStatus.setText(statusText);
+        binding.characterSpecies.setText(speciesText);
+        binding.characterGender.setText(genderText);
+
+        // Start values
+        binding.cardView.setAlpha(0f);
+        binding.cardView.setVisibility(View.VISIBLE);
+
+        // Animation
+        binding.cardView.animate()
+                .alpha(1f)
+                .setDuration(shortAnimationDuration)
+                .setListener(null);
     }
 }
