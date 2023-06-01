@@ -27,7 +27,7 @@ public class ThingsViewModel extends ViewModel {
     public void loadCharacters() {
         if (characters.getValue() != null) return; // TODO: Improve a bit
 
-        Log.d("TVM: " + this.hashCode(), "loading characters...");
+        Log.d("TVM: ", "loading characters...");
         ApiService apiService = ApiClient.getApiService();
         Call<ResponsePojo> call = apiService.getCharacters();
 
@@ -38,6 +38,7 @@ public class ThingsViewModel extends ViewModel {
 //                ResponsePojo.ResponseInfo responseInfo = resource.responseInfo;
                 ArrayList<CharacterPojo> data = resource.results;
                 characters.setValue(data);
+                Log.d("TVM: ", "loaded characters: " + characters.getValue());
 //                focusedCharacter.setValue(null);
             }
 
@@ -52,12 +53,15 @@ public class ThingsViewModel extends ViewModel {
         ArrayList<CharacterPojo> filteredList = new ArrayList<>();
         if (characters == null || characters.getValue() == null) return filteredList;
 
+        StringBuilder filteredCharacters = new StringBuilder();
         for (CharacterPojo character : characters.getValue()) {
-            if (character.isSelected())
+            if (character.isSelected()) {
                 filteredList.add(character);
+                filteredCharacters.append(character).append(", ");
+            }
         }
 
-        Log.d("TVM: " + this.hashCode(), "selected characters: " + filteredList.toString());
+        Log.d("TVM: ", "selected characters: " + filteredCharacters);
         return filteredList;
     }
 
@@ -72,7 +76,7 @@ public class ThingsViewModel extends ViewModel {
         findCharacterAndSwitchSelectedStatus(character);
         // Setting new focused character
         this.focusedCharacter.setValue(character);
-        Log.d("TVM: " + this.hashCode(), "setting focused character: " + character);
+        Log.d("TVM: ", "setting focused character: " + character);
     }
 
     public void setRandomFocusedCharacter() {
@@ -82,12 +86,12 @@ public class ThingsViewModel extends ViewModel {
 
 //        while (randomCharacter != focusedCharacter.getValue()) {
         int index = randomGenerator.nextInt(selectedCharacters.size());
-        Log.d("TVM: " + this.hashCode(), "random index: " + index + ", size: " + selectedCharacters.size());
+        Log.d("TVM: ", "random index: " + index + ", size: " + selectedCharacters.size());
         randomCharacter = selectedCharacters.get(index);
 //        }
 
         setFocusedCharacter(randomCharacter);
-        Log.d("TVM: " + this.hashCode(), "setting random focused character: " + randomCharacter);
+        Log.d("TVM: ", "setting random focused character: " + randomCharacter);
     }
 
     public void resetFocusedCharacter() {
@@ -102,11 +106,11 @@ public class ThingsViewModel extends ViewModel {
         if (characters.getValue() == null) characters.setValue(new ArrayList<>());
         characters.getValue().add(newCharacter);
 
-        Log.d("TVM: " + this.hashCode(), "adding new character: " + newCharacter);
+        Log.d("TVM: ", "adding new character: " + newCharacter);
     }
 
     private void findCharacterAndSwitchSelectedStatus(CharacterPojo character) {
         int index = characters.getValue().indexOf(character);
-        if (index > 0) characters.getValue().get(index).switchSelected();
+        if (index >= 0) characters.getValue().get(index).switchSelected();
     }
 }

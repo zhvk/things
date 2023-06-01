@@ -1,5 +1,7 @@
 package com.zhvk.things.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
@@ -19,6 +21,12 @@ public class CharacterPojo {
     private String gender;
 
     private boolean selected = false;
+
+    @NonNull
+    @Override
+    public String toString() {
+        return name;
+    }
 
     @Override
     public boolean equals(Object obj) {
