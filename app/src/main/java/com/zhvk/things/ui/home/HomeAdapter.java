@@ -1,4 +1,4 @@
-package com.zhvk.things;
+package com.zhvk.things.ui.home;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +12,15 @@ import com.zhvk.things.model.CharacterPojo;
 
 import java.util.ArrayList;
 
-public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.MainListViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainListViewHolder> {
 
     private ArrayList<CharacterPojo> dataList;
 
-    public MainListAdapter() {
+    public HomeAdapter() {
         dataList = new ArrayList<>();
     }
 
-    public MainListAdapter(ArrayList<CharacterPojo> dataList) {
+    public HomeAdapter(ArrayList<CharacterPojo> dataList) {
         setDataList(dataList);
     }
 

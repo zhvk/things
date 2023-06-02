@@ -1,4 +1,4 @@
-package com.zhvk.things.network;
+package com.zhvk.things.repository.network;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -10,7 +10,7 @@ public class ApiClient {
     private static Retrofit retrofit = null;
     private static ApiService apiService = null;
 
-    public static ApiService getApiService() {
+    public static ApiService getApiServiceInstance() {
         if (apiService == null)
             apiService = getRetrofitInstance().create(ApiService.class);
         return apiService;

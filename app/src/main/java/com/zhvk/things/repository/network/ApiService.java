@@ -1,4 +1,4 @@
-package com.zhvk.things.network;
+package com.zhvk.things.repository.network;
 
 import com.zhvk.things.model.ResponsePojo;
 

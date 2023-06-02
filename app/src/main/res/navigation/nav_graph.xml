@@ -7,16 +7,16 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.zhvk.things.MainListFragment"
+        android:name="com.zhvk.things.ui.home.HomeFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main_list" >
+        tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_mainFragment_to_selectionFragment"
             app:destination="@id/selectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectionFragment"
-        android:name="com.zhvk.things.SelectedListFragment"
+        android:name="com.zhvk.things.ui.selection.SelectionFragment"
         android:label="fragment_selection"
-        tools:layout="@layout/fragment_selected_list" />
+        tools:layout="@layout/fragment_selection" />
 </navigation>

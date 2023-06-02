@@ -1,4 +1,4 @@
-package com.zhvk.things;
+package com.zhvk.things.ui.home;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,25 +15,27 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 
+import com.zhvk.things.R;
 import com.zhvk.things.databinding.DialogAddCharacterBinding;
-import com.zhvk.things.databinding.FragmentMainListBinding;
+import com.zhvk.things.databinding.FragmentHomeBinding;
 import com.zhvk.things.model.CharacterPojo;
+import com.zhvk.things.ui.ThingsViewModel;
 
 import java.util.ArrayList;
 
-public class MainListFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
-    private FragmentMainListBinding binding;
+    private FragmentHomeBinding binding;
     private ThingsViewModel viewModel;
-    private MainListAdapter adapter;
+    private HomeAdapter adapter;
 
-    public MainListFragment() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentMainListBinding.inflate(inflater, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -43,10 +45,9 @@ public class MainListFragment extends Fragment {
 
         ViewModelStoreOwner storeOwner = Navigation.findNavController(view).getViewModelStoreOwner(R.id.nav_graph);
         viewModel = new ViewModelProvider(storeOwner).get(ThingsViewModel.class);
-        viewModel.loadCharacters();
         viewModel.resetFocusedCharacter();
 
-        adapter = new MainListAdapter();
+        adapter = new HomeAdapter();
         binding.recyclerView.setHasFixedSize(true);
         binding.recyclerView.setAdapter(adapter);
         binding.progressIndicator.setVisibility(View.VISIBLE);
@@ -67,7 +68,7 @@ public class MainListFragment extends Fragment {
             }
         });
 
-        viewModel.characters.observe(getViewLifecycleOwner(), newData -> {
+        viewModel.getCharacters().observe(getViewLifecycleOwner(), newData -> {
             populateList(newData);
         });
     }

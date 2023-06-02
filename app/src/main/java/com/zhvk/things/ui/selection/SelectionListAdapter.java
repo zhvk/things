@@ -1,4 +1,4 @@
-package com.zhvk.things;
+package com.zhvk.things.ui.selection;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,21 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.zhvk.things.databinding.ItemCharacterSelectedBinding;
 import com.zhvk.things.model.CharacterPojo;
+import com.zhvk.things.ui.ThingsViewModel;
 
 import java.util.Objects;
 
-public class SelectedListAdapter extends ListAdapter<CharacterPojo, SelectedListAdapter.SelectedListViewHolder> {
+public class SelectionListAdapter extends ListAdapter<CharacterPojo, SelectionListAdapter.SelectedListViewHolder> {
 
     private final ThingsViewModel viewModel;
 
-    public SelectedListAdapter(ThingsViewModel viewModel) {
+    public SelectionListAdapter(ThingsViewModel viewModel) {
         super(DIFF_CALLBACK);
         this.viewModel = viewModel;
     }
 
     @NonNull
     @Override
-    public SelectedListAdapter.SelectedListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SelectionListAdapter.SelectedListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemCharacterSelectedBinding binding = ItemCharacterSelectedBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         SelectedListViewHolder holder = new SelectedListViewHolder(binding);
 
@@ -41,7 +42,7 @@ public class SelectedListAdapter extends ListAdapter<CharacterPojo, SelectedList
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SelectedListAdapter.SelectedListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SelectionListAdapter.SelectedListViewHolder holder, int position) {
         holder.bind(getItem(position), getAlphaForPosition(position));
     }
 

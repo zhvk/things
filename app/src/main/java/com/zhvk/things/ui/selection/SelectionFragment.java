@@ -1,4 +1,4 @@
-package com.zhvk.things;
+package com.zhvk.things.ui.selection;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -15,24 +15,26 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 
-import com.zhvk.things.databinding.FragmentSelectedListBinding;
+import com.zhvk.things.R;
+import com.zhvk.things.databinding.FragmentSelectionBinding;
 import com.zhvk.things.model.CharacterPojo;
+import com.zhvk.things.ui.ThingsViewModel;
 
-public class SelectedListFragment extends Fragment {
+public class SelectionFragment extends Fragment {
 
-    private FragmentSelectedListBinding binding;
+    private FragmentSelectionBinding binding;
     private ThingsViewModel viewModel;
-    private SelectedListAdapter adapter;
+    private SelectionListAdapter adapter;
 
     private final int shortAnimationDuration = 300;
 
-    public SelectedListFragment() {
+    public SelectionFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentSelectedListBinding.inflate(inflater, container, false);
+        binding = FragmentSelectionBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -45,7 +47,7 @@ public class SelectedListFragment extends Fragment {
 
         binding.cardView.setVisibility(View.INVISIBLE);
 
-        adapter = new SelectedListAdapter(viewModel);
+        adapter = new SelectionListAdapter(viewModel);
         adapter.submitList(viewModel.getSelectedCharacters());
         binding.recyclerView.setHasFixedSize(true);
         binding.recyclerView.setAdapter(adapter);
@@ -63,7 +65,7 @@ public class SelectedListFragment extends Fragment {
             }
         });
 
-        viewModel.focusedCharacter.observe(getViewLifecycleOwner(), new Observer<CharacterPojo>() {
+        viewModel.getFocusedCharacter().observe(getViewLifecycleOwner(), new Observer<CharacterPojo>() {
             @Override
             public void onChanged(CharacterPojo character) {
                 if (character != null) {
